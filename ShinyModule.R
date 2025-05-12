@@ -41,10 +41,11 @@ shinyModuleUserInterface <- function(id, label) {
         
         sliderInput(ns("perc"), "% of points included in KUD ", min = 0, max = 100, value = 95, width = "100%"),
         
-        tags$div("Defaults for grid/ext change based on bandwidth method.
-                 *Smaller bandwidth(LSCV) or small custom number → higher resolution + larger extent
-                  -* Larger bandwidth(href)or large custom number → lower resolution + smaller extent", 
-                 style = "color: blue; font-style: italic;"),
+        tags$div(
+          "* If you get an error, try adjusting resolution and extent:
+            - For small areas → increase grid resolution
+            - For wide-ranging movements → lower grid resolution",
+          style = "color: darkblue; font-size: 90%; font-style: italic;"),
         
         selectInput(ns("hest"), 
                     "Bandwidth selection (hest)", 
@@ -52,6 +53,9 @@ shinyModuleUserInterface <- function(id, label) {
                     selected = "href", 
                     width = "100%"),
         
+        tags$div(" *for Smaller bandwidth(LSCV) or small custom number → higher resolution + larger extent
+                  -* for Larger bandwidth(href)or large custom number → lower resolution + smaller extent", 
+                 style = "color: darkgreen; font-style: italic;"),
         
         conditionalPanel(
           condition = sprintf("input['%s'] == 'href'", ns("hest")),
@@ -188,6 +192,9 @@ shinyModule <- function(input, output, session, data) {
     track_lines <- kud$track_lines
     
     sf_kud <- kud$data_kud
+    ###add
+    #sf_kud <- st_transform(sf_kud, 4326)
+    
     ids <- unique(c(sf_kud$track_id, track_lines$track_id))
     pal <- colorFactor(palette = pals::glasbey(), domain = ids)
     
@@ -229,7 +236,6 @@ shinyModule <- function(input, output, session, data) {
       df <- data.frame(TrackID = kud_df$track_id, Area_km2 = kud_df$area, KUD_percent=input$perc,Grid_resolution=input$res,Extent =input$ext )
       write.csv(df, file, row.names = FALSE) })
   
-      #kud_df <- st_drop_geometry(kud)  # remove geometry to get plain data frame
       
   ### save map as HTML
   output$save_html <- downloadHandler(
@@ -247,7 +253,8 @@ shinyModule <- function(input, output, session, data) {
       st_write(kud_shape, kml_path, driver="KML", delete_dsn = TRUE)
       #zip::zip(zipfile = file, files = kml_path, mode = "cherry-pick")})
       zip::zipr(zipfile = file, files = kml_path) })
-  
+      
+
   
   ###download shape as GeoPackage (GPKG)
   output$download_gpkg <- downloadHandler(
