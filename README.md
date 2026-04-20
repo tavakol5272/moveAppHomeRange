@@ -1,58 +1,80 @@
-# Minimum Convex Polygon
+# Name of App *(Give your app a short and informative title. Please adhere to our convention of Title Case without hyphens (e.g. My New App))*
 
 MoveApps
 
-Github repository: *github.com/andreakoelzsch/Minimum-Convex-Polygon*
-
+Github repository: *github.com/yourAccount/Name-of-App* *(provide the link to the repository where the code of the App can be found)*
 
 ## Description
-Calculate the individual MCPs of your Animals' locations and have them plotted on three types of maps. Different additional output files for downloading Map as HTML and PNG, table of the MCPs sizes and saving MCPs shapes as three types; GeoJSON, GeoPackage, kmz.
+*Enter here the short description of the App that might also be used when filling out the description during App submission to MoveApps. This text is directly presented to Users that look through the list of Apps when compiling Workflows.*
 
 ## Documentation
-After down sampling your data to a maximum 5-minute resolution, this App calculates simple Minimum Convex Polygons (MCPs) for each individual of your data set. Note that calculation of MCP is only possible for tracks with at least 5 locations. Individual tracks with less locations are removed for this analysis but are included in the output data set for use in further Apps.
-In addition, the user can select the individual for whom the MCP will be calculated and visualized on the map.
+*Enter here a detailed description of your App. What is it intended to be used for. Which steps of analyses are performed and how. Please be explicit about any detail that is important for use and understanding of the App and its outcomes. You might also refer to the sections below.*
 
-To calculate the planar MCP shapes, the dataset is reprojected to an Azimuthal Equidistant (AEQD) coordinate system centered on the spatial extent of the data, using meters as units.
+### Application scope
+#### Generality of App usability
+*State here if the App was developed for a specific species, taxon or taxonomic group, or to answer a specific question. How might it influence the scope and utility of the App. This information will help the user to understand why the App might be producing no or odd results.*
 
-The MCPs for each individual are plotted on an OpenStreetMap as the default basemap, with transparent, individual-specific colors. Below the polygons, the downsampled tracks of individuals (with sufficiently long tracks) are displayed in the same matching colors. Users can switch to Esri (Environmental Systems Research Institute) basemaps if desired.
+*Examples:*
 
-A csv-file summarizing the area of each MCP is available through the "Download MCP Table (CSV)" button. Users also can save the currently displayed map as an HTML file by pressing the "Save map as HTML" button, or as a PNG image by pressing the "Save map as PNG" button.
+This App was developed using data of birds. 
 
-The calculated MCP shapes can also be downloaded in various geospatial formats; As a GeoJSON file by clicking "Download MCP as GeoJSON", As a KMZ (compressed KML) file via "Download MCP as KMZ" and As a GeoPackage (GPKG) file using "Download MCP as GPKG".
+This App was developed using data of red deer. 
 
-### Input data
-move2 location
+This App was developed for any taxonomic group. 
 
-### Output data
-move2 location
+This App was developed to identify kill sites, but can probably be used to identify any kind of location clusters like nests, dens or drinking holes.
+
+#### Required data properties
+*State here the required and/or optimal data properties for this App to perform properly.*
+
+*Examples:*
+
+This App is only applicable to data that reflect range resident behavior. 
+
+The data should have a fix rate of at least 1 location per 30 minutes. 
+
+The App should work for any kind of (location) data.
+
+### Input type
+*Indicate which type of input data the App requires.*
+
+*Example*: `move2::move2_loc`
+
+### Output type
+*Indicate which type of output data the App produces to be passed on to subsequent Apps.*
+
+*Example:* `move2::move2_loc`
 
 ### Artefacts
-MCP Table (CSV): downloadable csv-file with Table of all individuals and the sizes of their calculated MCPs. Note that this is done only once for the initial setting of perc. Unit of the area values: km^2.
+*If the App creates artefacts (e.g. csv, pdf, jpeg, shapefiles, etc), please list them here and describe each.*
 
-Map as HTML: downloadable as a .html file, and. Not in output overview, but direct download via button in UI. It is generated using Leaflet and shows MCP area on the map.
+*Example:* `rest_overview.csv`: csv-file with Table of all rest site properties
 
-Map as PNG: captures the map as an image in .png format. Not in output overview, but direct download via button in UI.
+### Settings 
+*Please list and define all settings that the App requires to be set by the App user, if necessary including their unit. Please state each of the settings that the user will encounter in the UI of the shiny app.*
 
-MCP Shapes: Geospatial shape created from the MCP analysis, offered in multiple formats. All of them Not in output overview, but direct download via button in UI.
+*Example:* `Radius of resting site` (radius): Defined radius the animal has to stay in for a given duration of time for it to be considered resting site. Unit: `metres`.
 
-•	.geojson (GeoJSON): Ideal for web applications and open-source tools.
+*Always include the "Store settings" setting as it will appear automatically in all shiny apps*
+`Store settings`: click to store the current settings of the App for future Workflow runs. 
 
-•	.gpkg (GeoPackage): storing vector and raster geodata in a single SQLite database. supports multiple layers and large datasets
+### Changes in output data
+*Specify here how and if the App modifies the input data. Describe clearly what e.g. each additional column means.*
 
-•	.kmz :A zipped version of a KML file (Keyhole Markup Language), displays geographic data in Google Earth and Google Maps.
+*Examples:*
 
+The App adds to the input data the columns `Max_dist` and `Avg_dist`. They contain the maximum distance to the provided focal location and the average distance to it over all locations. 
 
-### Settings
-`Percentage of points the MCP should overlap`: Defined percentage of locations that the MCP algorithm shall use for calculating the MCP. We use the mcp() implementation of the adehabitat package, where (100 minus perc percent of the) locations furthest away from the centroid (arithmetric mean of the coordinates for each animal) are removed. Unit: % (range 0-100).
+The App filterers the input data as selected by the user. 
 
-`Select Animal`: The user can select the individual(s) for whom the MCP will be calculated and visualized on the map. By default, all individuals are selected.
+The output data is the outcome of the model applied to the input data. 
 
-After the map is displayed, the user can zoom in and out using the buttons on the map. They can also select the type of basemap to view (OpenStreetMap, Topomap or Aerial).
-Additionally, the user can choose whether to display the MCPs, the tracks, or both. By default, both MCPs and tracks are shown.
+The input data remains unchanged.
 
+### Most common errors
+*Please describe shortly what most common errors of the App can be, how they occur and best ways of solving them.*
 
-### Null or error handling:
-**Setting `Percentage of points the MCP should overlap`:** The MCP percentage is selected using a slider with a default value of 90%. The slider only allows values from 0 to 100, invalid values like NULL or negative numbers cannot be selected by the user. If the user doesn’t choose anything, then the app will just use 90 as the value.
+### Null or error handling
+*Please indicate for each setting as well as the input data which behaviour the App is supposed to show in case of errors or NULL values/input. Please also add notes of possible errors that can happen if settings/parameters are improperly set and any other important information that you find the user should be aware of.*
 
-**Setting `Select Animal`:** By default, all individuals are selected. If no individuals are selected, no data and no map will be displayed.
-**Data:** The data are not manipulated in this App, but interactively explored. So that a possible Workflow can be continued after this App, the input data set is returned.
+*Example:* **Setting `radius`:** If no radius AND no duration are given, the input data set is returned with a warning. If no radius is given (NULL), but a duration is defined then a default radius of 1000m = 1km is set. 
