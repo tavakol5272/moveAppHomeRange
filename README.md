@@ -1,80 +1,86 @@
-# Name of App *(Give your app a short and informative title. Please adhere to our convention of Title Case without hyphens (e.g. My New App))*
+# Home range (Kernel Utilization Distribution)
 
 MoveApps
 
-Github repository: *github.com/yourAccount/Name-of-App* *(provide the link to the repository where the code of the App can be found)*
-
+Github repository: https://github.com/chlobeau/moveAppHomeRange
 ## Description
-*Enter here the short description of the App that might also be used when filling out the description during App submission to MoveApps. This text is directly presented to Users that look through the list of Apps when compiling Workflows.*
+This app estimates home ranges using kernel density estimation to derive the utilization distribution (UD). 
+It generates home-range area estimates, polygon files, and an interactive map of kernel-based home ranges at a user-defined percent level, 
+using the adehabitatHR R package (Calenge, 2006). Results are provided both at the population level and for each individual in the dataset.
+
+To reduce the effects of autocorrelation in the data, we recommend filtering the input to one location per week before running the analysis.
 
 ## Documentation
-*Enter here a detailed description of your App. What is it intended to be used for. Which steps of analyses are performed and how. Please be explicit about any detail that is important for use and understanding of the App and its outcomes. You might also refer to the sections below.*
+
+This app estimates home ranges using kernel density estimation to derive the utilization distribution (UD). 
+For background on this method, see Worton (1989). The estimation is implemented with the adehabitatHR R package (Calenge, 2006).
+
+The app generates kernel home-range polygons at a user-defined percent level. 
+It produces both population-level results, based on all individuals in the dataset, and individual-level results for each track. Outputs include an interactive map, spatial files, and a table of home-range areas.
+
+Preparing the workflow: To reduce autocorrelation in the data, we recommend thinning the input to one location per animal per week before running the analysis. 
+This can be done using the Movebank Location app or the Thin Data by Time app.
+
+At least 5 locations per animal are required to calculate individual KUDs. 
+If necessary, you can use the Filter by Track Duration app to identify and remove tracks with fewer than 5 occurrences.
+
+To calculate KUDs for each animal, the input tracks should represent individual animals. 
+If one animal has multiple tracks, such as separate deployments or season-year segments, the app will estimate a separate KUD for each track.
 
 ### Application scope
 #### Generality of App usability
-*State here if the App was developed for a specific species, taxon or taxonomic group, or to answer a specific question. How might it influence the scope and utility of the App. This information will help the user to understand why the App might be producing no or odd results.*
-
-*Examples:*
-
-This App was developed using data of birds. 
-
-This App was developed using data of red deer. 
-
 This App was developed for any taxonomic group. 
 
-This App was developed to identify kill sites, but can probably be used to identify any kind of location clusters like nests, dens or drinking holes.
-
 #### Required data properties
-*State here the required and/or optimal data properties for this App to perform properly.*
-
-*Examples:*
-
-This App is only applicable to data that reflect range resident behavior. 
-
-The data should have a fix rate of at least 1 location per 30 minutes. 
-
 The App should work for any kind of (location) data.
 
 ### Input type
-*Indicate which type of input data the App requires.*
-
-*Example*: `move2::move2_loc`
+`move2::move2_loc`
 
 ### Output type
-*Indicate which type of output data the App produces to be passed on to subsequent Apps.*
-
-*Example:* `move2::move2_loc`
+`move2::move2_loc`
 
 ### Artefacts
-*If the App creates artefacts (e.g. csv, pdf, jpeg, shapefiles, etc), please list them here and describe each.*
+This app provides the following downloadable artefacts:
 
-*Example:* `rest_overview.csv`: csv-file with Table of all rest site properties
+`homerange_kud_..._areas.csv`: KUD Areas Table; A table containing the estimated home-range area for each individual track, together with the selected KUD percentage level, grid resolution, and extent.
+
+`homerange_kud_....html`: Interactive Map; An interactive Leaflet map showing the movement tracks, individual kernel home-range polygons, and the population-level KUD polygon on selectable background maps.
+
+`homerange_kud_....png`: Map Export; A static image export of the current interactive map view.
+
+`homerange_kud_....kmz`: KMZ File; A spatial file for viewing the estimated home-range polygons in applications such as Google Earth.
+
+`homerange_kud_....gpkg`: GeoPackage; A spatial file containing the estimated home-range polygons, suitable for use in GIS software such as QGIS or ArcGIS.
 
 ### Settings 
-*Please list and define all settings that the App requires to be set by the App user, if necessary including their unit. Please state each of the settings that the user will encounter in the UI of the shiny app.*
+**"Tracks"**: select one or multiple individuals to include in the home-range estimation. Buttons are available to select or unselect all tracks. Only tracks with at least 5 locations are available for analysis. If no track is selected, a red warning (“No track selected”) is shown and the map is not updated.
 
-*Example:* `Radius of resting site` (radius): Defined radius the animal has to stay in for a given duration of time for it to be considered resting site. Unit: `metres`.
+**"% of points included in KUD"**: defines the utilization distribution contour level to display and export, for example 95 for a 95% KUD.
 
-*Always include the "Store settings" setting as it will appear automatically in all shiny apps*
-`Store settings`: click to store the current settings of the App for future Workflow runs. 
+**"Bandwidth selection (hest)"**: choose the smoothing parameter used for kernel density estimation. Available options are href, LSCV, and custom. If custom is selected, a numeric bandwidth value must be entered manually.
+
+**"Custom bandwidth value"**: shown only when custom is selected under bandwidth selection. This value is used as the kernel smoothing parameter.
+
+**"Grid resolution (res)"**: controls the raster resolution used for KUD estimation. Higher values produce finer output but may increase computation time.
+
+**"Extent (space around data area)"**: controls how much space around the observed locations is included in the KUD calculation.
+
+**"Apply Changes"**: updates the map and all downloadable outputs using the currently selected tracks and parameter settings. Until this button is clicked, changes in the sidebar do not update the displayed results.
+
+**"Download"**:
+Save map as HTML: locally downloads the current map in HTML format.
+Save map as PNG: locally downloads the current map in PNG format.
+Download as KMZ: locally downloads the home-range polygons in KMZ format for viewing in Google Earth.
+Download as GPKG: locally downloads the home-range polygons in GeoPackage format for use in GIS software such as QGIS or ArcGIS.
+Download KUD Areas Table: locally downloads a CSV table with the estimated home-range area for each individual track.
+
 
 ### Changes in output data
-*Specify here how and if the App modifies the input data. Describe clearly what e.g. each additional column means.*
 
-*Examples:*
-
-The App adds to the input data the columns `Max_dist` and `Avg_dist`. They contain the maximum distance to the provided focal location and the average distance to it over all locations. 
-
-The App filterers the input data as selected by the user. 
-
-The output data is the outcome of the model applied to the input data. 
-
-The input data remains unchanged.
-
-### Most common errors
-*Please describe shortly what most common errors of the App can be, how they occur and best ways of solving them.*
+The input data remains unchanged and is passed on as output.
 
 ### Null or error handling
-*Please indicate for each setting as well as the input data which behaviour the App is supposed to show in case of errors or NULL values/input. Please also add notes of possible errors that can happen if settings/parameters are improperly set and any other important information that you find the user should be aware of.*
 
-*Example:* **Setting `radius`:** If no radius AND no duration are given, the input data set is returned with a warning. If no radius is given (NULL), but a duration is defined then a default radius of 1000m = 1km is set. 
+**Big data:** If the input data set exceeds 200,000 locations the Shiny UI does not perform properly. Please thin your data for visualisation with this App or use another App to visualize your data.   
+**Track Selection** If no track is selected, a red warning (“No track selected”) is shown and the map is not updated.  

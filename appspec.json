@@ -1,66 +1,92 @@
 {
   "version": "1.2",
   "settings": [
-    {
-      "id": "auxiliary-file-a",
-      "name": "Personalization",
-      "description": "You can personalize the app by providing a file",
-      "type": "USER_FILE"
-    }
+    
   ],
   "dependencies": {
     "R": [
       {
-        "name": "shiny"
+        "name": "move2"
       },
       {
+        "name": "adehabitatHR"
+      },
+      {
+        "name": "shiny"
+      },
+	     {
         "name": "sf"
       },
       {
-       "remotes": "install_git('https://gitlab.com/bartk/move2.git')"
+        "name": "sp"
+      },
+	     {
+        "name": "pals"
+      },
+	        {
+        "name": "leaflet"
+      },
+	  	    {
+        "name": "htmlwidgets"
+      },
+	  	        {
+        "name": "webshot2"
+      },
+	  	        {
+        "name": "raster"
+      },
+	  	        {
+        "name": "shinyBS"
+      },
+	  	  {
+        "name": "zip"
+      },
+	  	  {
+        "name": "jsonlite"
+      },
+	  	  {
+        "name": "dplyr"
       }
     ]
   },
-  "providedAppFiles": [
-    {
-      "settingId": "auxiliary-file-a",
-      "from": "data/auxiliary/user-files/provided-app-files/auxiliary-file-a/sample.txt"
-    }
-  ],
   "license": {
     "key": "MIT"
   },
   "language": "eng",
   "keywords": [
-    "example",
-    "template"
+    "map",
+    "leaflet",
+    "shiny",
+    "interactive",
+    "point",
+    "line",
+    "home range",
+    "kernel",
+    "utilization"
   ],
   "people": [
     {
-      "firstName": "Charles",
+      "firstName": "Chloe",
       "middleInitials": null,
-      "lastName": "Darwin",
-      "email": "creator@example.com",
+      "lastName": "Beaupre",
+      "email": "beauprechloe@gmail.com",
       "roles": [
         "author",
         "creator"
       ],
-      "orcid": null,
-      "affiliation": null,
+      "orcid": "https://orcid.org/0000-0001-8146-2511",
+      "affiliation": "SUNY - ESF",
       "affiliationRor": null
-    }
-  ],
-  "funding": [
-    {
-      "name": "funder name",
-      "comment": "grant for App"
-    }
-  ],
-  "references": [
-    {
-      "type": "IsDescribedBy",
-      "note": "Darwin, C. 1900. The creation. Journal XY. 1-2",
-      "url": "https://anylink.xyz"
-    }
+    },
+{
+  "firstName": "Nafiseh",
+  "middleInitials": null,
+  "lastName": "Tavakol",
+  "email": "ntavakol@ab.mpg.de",
+  "roles": ["contributor"],
+  "orcid": "0000-0003-3674-4784",
+  "affiliation": "Max-Planck-Institute of Animal Behavior",
+  "affiliationRor": "https://ror.org/026stee22"
+}
   ]
 }
