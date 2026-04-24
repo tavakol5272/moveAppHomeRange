@@ -1,69 +1,69 @@
 {
-  "settings": [
-    {
-      "id": "percent",
-      "name": "Percent.",
-      "description": "Percentage level for home-range size estimation. For example, '95' will provide an area within which the animal/population has a 95% probability of occurring.",
-      "defaultValue": 95,
-      "type": "INTEGER"
-    },
-    {
-      "id": "res",
-      "name": "Resolution.",
-      "description": "The size of the pixels over which the UD should be estimated. Unit: `metres`.",
-      "defaultValue": 200,
-      "type": "INTEGER"
-    },
-    {
-      "id": "ext",
-      "name": "Extent.",
-      "description": "A unitless number controlling the extent of the area (grid) used for estimation.",
-      "defaultValue": 1,
-      "type": "INTEGER"
-    }
-    {
-      "id": "hest",
-      "name": "smoothing parameter.",
-      "description": "A character string or a number used for the bandwidth estimator / smoothing parameter.",
-      "defaultValue": "href",
-      "type": "STRING"
-    }
-  ],
+  "version": "1.2",
+  "settings": [  ],
   "dependencies": {
     "R": [
       {
-        "name": "sf"
+        "name": "move2"
       },
       {
         "name": "adehabitatHR"
       },
       {
-        "name": "plyr"
+        "name": "shiny"
+      },
+	     {
+        "name": "sf"
       },
       {
-        "name": "withr"
+        "name": "sp"
       },
-      {
-        "name": "mapview"
+	     {
+        "name": "pals"
       },
-      {
-        "name": "webshot"
+	        {
+        "name": "leaflet"
       },
-      {
-        "name": "move2"
-      }
-      {
+	  	    {
+        "name": "htmlwidgets"
+      },
+	  	        {
+        "name": "webshot2"
+      },
+	  	        {
+        "name": "raster"
+      },
+	  	        {
+        "name": "shinyBS"
+      },
+	  	  {
         "name": "zip"
+      },
+	  	  {
+        "name": "jsonlite"
+      },
+	  	  {
+        "name": "dplyr"
+      },
+	  	  {
+        "name": "shinycssloaders"
       }
     ]
   },
-  "createsArtifacts": true,
   "license": {
     "key": "MIT"
   },
   "language": "eng",
   "keywords": [
-    "home range"
+    "map",
+    "leaflet",
+    "shiny",
+    "interactive",
+    "point",
+    "line",
+    "home range",
+    "kernel",
+    "utilization"
   ],
   "people": [
     {
@@ -78,15 +78,16 @@
       "orcid": "https://orcid.org/0000-0001-8146-2511",
       "affiliation": "SUNY - ESF",
       "affiliationRor": null
-    }
-  ],
-  "funding": [
-    {
-      "name": ""
-    }
-  ],
-  "documentation": {
-    "url": "https://github.com/chlobeau/moveAppHomeRange/blob/master/README.md"
-  }
+    },
+{
+  "firstName": "Nafiseh",
+  "middleInitials": null,
+  "lastName": "Tavakol",
+  "email": "ntavakol@ab.mpg.de",
+  "roles": ["contributor"],
+  "orcid": "0000-0003-3674-4784",
+  "affiliation": "Max-Planck-Institute of Animal Behavior",
+  "affiliationRor": "https://ror.org/026stee22"
 }
-
+  ]
+}

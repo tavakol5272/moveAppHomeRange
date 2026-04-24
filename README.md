@@ -2,66 +2,92 @@
 
 MoveApps
 
-Github repository: https://github.com/chlobeau/moveAppsHomeRange
-
+Github repository: https://github.com/chlobeau/moveAppHomeRange
 ## Description
-This app estimates home range using a kernel density estimation to define the utilization distribution (UD). The app generates area sizes, a shapefile and an interactive map of kernel home-range at the desired percent level estimated using the R package `adehabitatHR` (Calenge 2006). Results are provided for all individuals in the dataset (population level) as well and polygons for each individual's home range.
-
-To account for autocorrelation in the data we recommend filtering to one location per week.
+This app estimates home ranges using kernel density estimation to derive the utilization distribution (UD). 
+It generates home-range area estimates, polygon files, and an interactive map of kernel-based home ranges at a user-defined percent level, 
+using the adehabitatHR R package (Calenge, 2006). Results are provided both at the population level and for each individual in the dataset.
 
 ## Documentation
-This app uses kernel density estimation to define the utilization distribution (UD). See Worton (1989) to learn more about kernel density estimation.
 
-The app generates a shapefile and an interactive plot of kernel home-range at the desired percent level estimated using the R package `adehabitatHR` (Calenge 2006). It generates a single polygon and home-range area value that includes all individuals in the dataset (population level) as well and polygons for each individual's home range.
+This app estimates home ranges using kernel density estimation to derive the utilization distribution (UD). 
+For background on this method, see Worton (1989). The estimation is implemented with the adehabitatHR R package (Calenge, 2006).
 
-Preparing the workflow:
-* To account for autocorrelation in the data we recommend filtering to one location per animal per week. You can do this with the [Movebank Location](https://www.moveapps.org/apps/browser/267eb5a9-41a8-4d1c-ad68-52769eac72a5) or [Thin Data by Time](https://www.moveapps.org/apps/browser/9c814c17-c61c-4cad-857d-2b44402a78b3) apps. 
-* At least 5 locations per animal are needed to calculate the individual KUDs. If needed, you can use the [Filter by Track Duration App](https://www.moveapps.org/apps/browser/47bbcabf-7a0b-4749-9dcf-2252d8d17055) to identify and remove any tracks with <5 occurrences.
-* To calculate KUDs for each animal, ensure the input tracks are defined by animal. If animals have multiple tracks (e.g., representing separate deployments or season-year), a KUD will be estimated for each of these segments.
+The app generates kernel home-range polygons at a user-defined percent level. 
+It produces both population-level results, based on all individuals in the dataset, and individual-level results for each track. Outputs include an interactive map, spatial files, and a table of home-range areas.
 
-The output consists of (i) a table (.csv) of home range sizes, (ii) a zipped shapefile (.shp) with the home-range polygon for the population and each individual, and (iii) an interactive map (.html) showing the input data and home-range polygons on a selection of background maps.
+To reduce the effects of autocorrelation in the data, Preparing the workflow: To reduce autocorrelation in the data, we recommend thinning the input to one location per animal per week before running the analysis. 
+This can be done using the Movebank Location app or the Thin Data by Time app.
 
-Understanding your results: The method used here assumes that locations represent animals from the same population in their home range, and might not exclude unavailable habitat, such as space across an impassible barrier. Interpret accordingly! You can use prior apps in the workflow to remove movements considered to be outside the home range. For example, for a population with separate summer and winter ranges, you can use the [Filter/Annotate by Season App](https://www.moveapps.org/apps/browser/5760087c-47f5-4fa7-9628-dec1cc09c4db) in the workflow to extract data for specific time periods and then use this App to estimate seasonal home ranges. Finally, the method assumes locations are independent estimates, and variation in fix rates will lead to results that incorrectly indicate more space use in areas with higher fix rates. Thinning the data to weekly locations (described above) will help mitigate this autocorrelation.
 
-### References
-Worton, B. J. (1989) Kernel methods for estimating the utilization distribution in home-range studies. Ecology, 70, 164–168. https://doi.org/10.2307/1938423
+At least 5 locations per animal are required to calculate individual KUDs. 
+If necessary, you can use the Filter by Track Duration app to identify and remove tracks with fewer than 5 occurrences.
 
-Calenge, C. (2006) The package adehabitat for the R software: a tool for the analysis of space and habitat use by animals. Ecological Modelling, 197, 516-519. https://doi.org/10.1016/j.ecolmodel.2006.03.017
+To calculate KUDs for each animal, the input tracks should represent individual animals. 
+If one animal has multiple tracks, such as separate deployments or season-year segments, the app will estimate a separate KUD for each track.
 
-### Input data
-Move2 object in Movebank format. App will not accept Move2 objects that have already been split as they are in a list format.
+### Application scope
+#### Generality of App usability
+This App was developed for any taxonomic group. 
 
-### Output data
+#### Required data properties
+The App should work for any kind of (location) data.
 
-App returns move2_loc, no additional output is produced to be used in subsequent apps.
+### Input type
+`move2::move2_loc`
 
+### Output type
+`move2::move2_loc`
 
 ### Artefacts
+This app provides the following downloadable artefacts:
 
-`KUD_areas.csv`: a table of all KUD home-range areas in square kilometers, indicating the percent setting used. For example, the 95 percent UD will provide an area within which the animal/s have a 95% probability of occurring.
+`homerange_kud_perc_hest_res_ext_areas.csv`: KUD Areas Table; A table containing the estimated home-range area for each individual track, together with the selected KUD percentage level, grid resolution, and extent.
 
-`KUD_p##.zip`: a folder containing a shapefile of KUD polygons. The number in the filename indicates the Percent setting used.
+`homerange_kud_perc_hest_res_ext.html`: Interactive Map; An interactive Leaflet map showing the movement tracks, individual kernel home-range polygons, and the population-level KUD polygon on selectable background maps.
 
-`map_html_files.zip`: a folder containing a mapview interactive map (`UD_##p_###m.html`)including animal movement trajectories from the input data, home-range polygons and several background maps, as well as the supporting files for this map (`UD_##p_###m_files`). Numbers in the filenames indicate the Percent (##p) and Resolution (###m) settings used. Use the legend in the upper left to change the background map and view or hide the trajectories, population KUD and individual KUDs. Hover your cursor over a KUD polygon to identify the track represented. 
+`homerange_kud_perc_hest_res_ext.png`: Map Export; A static image export of the current interactive map view.
+
+`homerange_kud_perc_hest_res_ext.kmz`: KMZ File; A spatial file for viewing the estimated home-range polygons in applications such as Google Earth.
+
+`homerange_kud_perc_hest_res_ext.gpkg`: GeoPackage; A spatial file containing the estimated home-range polygons, suitable for use in GIS software such as QGIS or ArcGIS.
 
 ### Settings
 
-`Percent` (percent): Defined percentage level to estimate KUD polygon. For example, '95' will provide an area within which the animal/population has a 95% probability of occurring, based on the input location data set. Default is 95.
+**"Tracks"**: select one or multiple individuals to include in the home-range estimation. Buttons are available to select or unselect all tracks. Only tracks with at least 5 locations are available for analysis. If no track is selected, a red warning (“No track selected”) is shown and the map is not updated.
 
-`Resolution` (res): The size of the pixels over which the UD should be estimated. Unit: `metres`. Default is 200. Appropriate values depend on the area covered by the data. For example, if all data occur in a very small number of grid cells (res too large), you may get an error or uninformative results suggesting the home range covers the entire grid. On the other hand, using a very small grid (res too small) may overfit the home range to the available locations, incorrectly implying the animal would not occur in similar nearby places.
+**"% of points included in KUD"**: defines the home-range contour level extracted from the utilization distribution, for example 95 for a 95% KUD.
 
-`Extent` (ext): A unitless number controlling the extent of the area (grid) used for estimation. Default is 1. The number relates to the spatial range of the input data but is not equal to the number of pixels or a geographic distance. Increase in increments of 1 as needed to provide sufficient space for the analysis (see below). 
+**"Bandwidth selection (hest)"**: chooses the smoothing parameter `h` used in `kernelUD()` for kernel density estimation. Available options are `href`, `LSCV`, and `custom`.
 
-`Smoothing parameter` (hest): A character string or a numerical value. The default "href" assumes a bivariate normal kernel. Alternatively, the smoothing parameter can be estimated using Least Square Cross Validation (defined in settings as hest = "LSCV") or it may be set to any numeric value. See https://www.rdocumentation.org/packages/adehabitatHR/versions/0.4.21/topics/kernelUD for additional context.
+* **`href`**: uses the reference bandwidth (ad hoc method), which generally produces a smoother utilization distribution. For `href`, a smaller extent and lower grid resolution are usually sufficient. A practical starting point is an extent of `0.5–1.0` and a grid resolution of `100–200`.
+* **`LSCV`**: estimates the smoothing parameter using Least Square Cross Validation. This is more data-driven, but in some cases the minimization may be unstable. Because it often leads to a smaller bandwidth, it may require a larger extent and higher grid resolution. A practical starting point is an extent of `0.7–1.2` and a grid resolution of `300–500`.
+* **`custom`**: allows the user to provide a numeric bandwidth value manually. Smaller custom bandwidth values usually require a higher resolution and larger extent, whereas larger custom bandwidth values usually work with a lower resolution and smaller extent.
+
+**"Custom bandwidth value"**: shown only when custom is selected. This number defines how strongly the home-range estimation is smoothed.
+
+**"Grid resolution (res)"**: `grid` argument in `kernelUD()`. It controls the size of the grid on which the utilization distribution is estimated. Higher values produce a finer, more detailed surface, but may increase computation time. If calculation errors occur, increasing the grid resolution may help for small areas, whereas lower resolution may be more suitable for wide-ranging movements.
+
+**"Extent (space around data area)"**: corresponds to the `extent` argument in `kernelUD()`. It controls how much extra space around the observed locations is included in the grid used for estimation. Larger values include more surrounding area in the KUD calculation. If calculation errors occur, adjusting the extent together with the resolution may improve the estimation.
+
+**"Apply Changes"**: updates the map and all downloadable outputs using the currently selected tracks and parameter settings. Until this button is clicked, changes in the sidebar do not update the displayed results.
+
+**"Download"**:
+Save map as HTML: locally downloads the current map in HTML format.
+Save map as PNG: locally downloads the current map in PNG format.
+Download as KMZ: locally downloads the home-range polygons in KMZ format for viewing in Google Earth.
+Download as GPKG: locally downloads the home-range polygons in GeoPackage format for use in GIS software such as QGIS or ArcGIS.
+Download KUD Areas Table: locally downloads a CSV table with the estimated home-range area for each individual track.
+
+
+### Changes in output data
+
+The input data remains unchanged and is passed on as output.
 
 ### Null or error handling
 
-App returns NULL if there are fewer than 5 locations for all individuals.
-
-#### Common errors
-ERROR: “Error in getverticeshr.estUD(X[[i]], ...): The grid is too small to allow the estimation of home-range.
-You should rerun kernelUD with a larger extent parameter”.  
-SOLUTION: Increase the value of the extent parameter in increments of 1 until you no longer receive this error.
-
-ERROR: ./start-process.sh: line 9:   308 Killed: This error likely arises from the resolution (grid size) being unreasonably large to estimate the UD raster (i.e. 20,000 m [20 km]).  
-SOLUTION: Reduce the res value until you no longer receive this error.
+**Empty input**: If the input data are NULL or contain zero rows, the app returns NULL.  
+**Track selection**: If no track is selected, a red warning (“No track selected”) is shown and the map is not updated.  
+**Number of locations**: Tracks with fewer than 5 locations are excluded from the analysis. If no tracks remain after filtering, the app shows “No tracks with at least 5 locations.  
+**KUD estimation failure**: Some combinations of bandwidth, grid resolution, and extent may cause the kernel estimation to fail or produce unstable results. In such cases, adjusting hest, res, or ext may help.  
+**Large datasets**: Very large input datasets may reduce Shiny UI performance and increase computation time.  
