@@ -14,6 +14,7 @@ library(dplyr)
 library(raster)
 library(jsonlite)
 
+
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
 ##### Interface ######
@@ -84,7 +85,7 @@ shinyModuleUserInterface <- function(id, label) {
         downloadButton(ns("download_kmz"), "Download as KMZ", class = "btn-sm"),
         br(),
         br(),
-        downloadButton(ns("download_gpkg"), "Download as GPKG (", class = "btn-sm"),
+        downloadButton(ns("download_gpkg"), "Download as GPKG", class = "btn-sm"),
         br(),
         br(),
         downloadButton(ns("download_kud_table"), "Download KUD Areas Table", class = "btn-sm")
